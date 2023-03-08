@@ -602,8 +602,24 @@ func (v *evalVisitor) callFunc(name string, funcVal reflect.Value, options *Opti
 		}
 	}
 
-	if !addOptions && (len(params) != numIn) {
-		v.errorf("Helper '%s' called with wrong number of arguments, needed %d but got %d", name, numIn, len(params))
+	var variadicSlice []reflect.Value
+	paramsLen := len(params)
+	if !addOptions && (paramsLen != numIn) {
+		if funcType.IsVariadic() {
+			numIn--
+			if paramsLen > numIn {
+				sliceElemType := funcType.In(numIn).Elem()
+				for _, x := range params[numIn:] {
+					if xt := reflect.TypeOf(x); !xt.AssignableTo(sliceElemType) {
+						v.errorf("Helper '%s' called with wrong number of arguments, needed %d but got %d", name, numIn, paramsLen)
+					}
+					variadicSlice = append(variadicSlice, reflect.ValueOf(x))
+				}
+				params = params[:numIn]
+			}
+		} else {
+			v.errorf("Helper '%s' called with wrong number of arguments, needed %d but got %d", name, numIn, paramsLen)
+		}
 	}
 
 	// check and collect arguments
@@ -641,6 +657,8 @@ func (v *evalVisitor) callFunc(name string, funcVal reflect.Value, options *Opti
 
 	if addOptions {
 		args[numIn-1] = reflect.ValueOf(options)
+	} else {
+		args = append(args, variadicSlice...)
 	}
 
 	result := funcVal.Call(args)
