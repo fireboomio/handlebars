@@ -604,7 +604,7 @@ func (v *evalVisitor) callFunc(name string, funcVal reflect.Value, options *Opti
 
 	var variadicSlice []reflect.Value
 	paramsLen := len(params)
-	if !addOptions && (paramsLen != numIn) {
+	if !addOptions {
 		if funcType.IsVariadic() {
 			numIn--
 			if paramsLen > numIn {
@@ -617,7 +617,7 @@ func (v *evalVisitor) callFunc(name string, funcVal reflect.Value, options *Opti
 				}
 				params = params[:numIn]
 			}
-		} else {
+		} else if paramsLen != numIn {
 			v.errorf("Helper '%s' called with wrong number of arguments, needed %d but got %d", name, numIn, paramsLen)
 		}
 	}
