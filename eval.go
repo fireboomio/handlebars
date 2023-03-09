@@ -611,7 +611,7 @@ func (v *evalVisitor) callFunc(name string, funcVal reflect.Value, options *Opti
 				sliceElemType := funcType.In(numIn).Elem()
 				for _, x := range params[numIn:] {
 					if xt := reflect.TypeOf(x); !xt.AssignableTo(sliceElemType) {
-						v.errorf("Helper '%s' called with wrong number of arguments, needed %d but got %d", name, numIn, paramsLen)
+						v.errorf("Helper '%s' called with wrong type of variadic args, needed %s but got %s", name, sliceElemType, xt)
 					}
 					variadicSlice = append(variadicSlice, reflect.ValueOf(x))
 				}
