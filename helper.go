@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"reflect"
+	"sort"
+	"strings"
 	"sync"
 )
 
@@ -341,6 +343,9 @@ func eachHelper(context interface{}, options *Options) interface{} {
 	case reflect.Map:
 		// note: a go hash is not ordered, so result may vary, this behaviour differs from the JS implementation
 		keys := val.MapKeys()
+		sort.Slice(keys, func(i, j int) bool {
+			return strings.Compare(keys[i].String(), keys[j].String()) < 0
+		})
 		for i := 0; i < len(keys); i++ {
 			key := keys[i].Interface()
 			ctx := val.MapIndex(keys[i]).Interface()
