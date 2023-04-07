@@ -3,7 +3,7 @@ package handlebars_test
 import (
 	"fmt"
 
-	"handlebars/v3"
+	"github.com/flowchartsman/handlebars/v3"
 )
 
 func Example() {

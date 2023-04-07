@@ -7,8 +7,8 @@ import (
 	"runtime"
 	"strconv"
 
-	"handlebars/v3/ast"
-	"handlebars/v3/lexer"
+	"github.com/flowchartsman/handlebars/v3/ast"
+	"github.com/flowchartsman/handlebars/v3/lexer"
 )
 
 // References:

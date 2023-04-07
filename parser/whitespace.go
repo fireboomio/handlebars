@@ -3,7 +3,7 @@ package parser
 import (
 	"regexp"
 
-	"handlebars/v3/ast"
+	"github.com/flowchartsman/handlebars/v3/ast"
 )
 
 // whitespaceVisitor walks through the AST to perform whitespace control

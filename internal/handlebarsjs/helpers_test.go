@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"handlebars/v3"
+	"github.com/flowchartsman/handlebars/v3"
 )
 
 //

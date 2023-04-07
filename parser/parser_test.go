@@ -5,7 +5,8 @@ import (
 	"regexp"
 	"testing"
 
-	"handlebars/v3/lexer"
+	"github.com/flowchartsman/handlebars/v3/ast"
+	"github.com/flowchartsman/handlebars/v3/lexer"
 )
 
 type parserTest struct {
@@ -91,7 +92,7 @@ func TestParser(t *testing.T) {
 
 		node, err := Parse(test.input)
 		if err == nil {
-			output = fmt.Sprint(node)
+			output = ast.Print(node)
 		}
 
 		if (err != nil) || (test.output != output) {
@@ -162,7 +163,7 @@ func TestParserErrors(t *testing.T) {
 	for _, test := range parserErrorTests {
 		node, err := Parse(test.input)
 		if err == nil {
-			output := fmt.Sprint(node)
+			output := ast.Print(node)
 			tokens := lexer.Collect(test.input)
 
 			t.Errorf("Test '%s' failed - Error expected\ninput:\n\t'%s'\ngot\n\t%q\ntokens:\n\t%q", test.name, test.input, output, tokens)
@@ -190,7 +191,7 @@ func Example() {
 	}
 
 	// print AST
-	output := fmt.Sprint(program)
+	output := ast.Print(program)
 
 	fmt.Print(output)
 	// CONTENT[ 'You know ' ]

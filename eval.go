@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"handlebars/v3/ast"
+	"github.com/flowchartsman/handlebars/v3/ast"
 )
 
 var (
